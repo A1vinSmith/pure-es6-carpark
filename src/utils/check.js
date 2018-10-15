@@ -1,3 +1,5 @@
+import * as CONSTANTS from '../constants';
+
 /**
  * Check whether there is another bus stops at the target unit.
  * @param  {Boolean} preCheck       [For return in compose early,
@@ -13,7 +15,7 @@
  * @return {Boolean}                [Return true if exists, false if no]
  */
 export const checkBusExists = (preCheck = true, newPosition = {}, existingBuses = [], id) => {
-    if (preCheck === false) return false; // Exit early
+    if (preCheck === false) return false; // Exit early, could be better patterns
     for (let i = 0; i < existingBuses.length; i += 1) {
         const bus = existingBuses[i];
         if (newPosition.posX === bus.posX &&
@@ -24,3 +26,10 @@ export const checkBusExists = (preCheck = true, newPosition = {}, existingBuses 
     }
     return false;
 };
+
+/**
+ * Check whether the direction is valid or not.
+ * @param  {String}  direction [The supported directions are set in CONSTANTS]
+ * @return {Boolean}           [Return ture if valid]
+ */
+export const isValidDirection = direction => (CONSTANTS.DIR_ALL.indexOf(direction) > -1);
