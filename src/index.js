@@ -12,11 +12,18 @@ const generateParkContainer = (el) => {
         row.id = "row" + i;
 
         for (k = 0; k < 5; k += 1) {
-            var box = document.createElement("div");
+            let box = document.createElement("div");
             box.className = "box";
             box.id = "box" + k;
             //box.innerHTML = k + ' ' + (5 - 1 - i);
-            box.innerHTML = row.id + ' ' + box.id;
+            // box.innerHTML = row.id + ' ' + box.id;
+            
+            // Place Bus
+            let img = document.createElement("i");
+            img.className = "fa fa-bus inner" + " ";
+            img.className += "rotate-west";
+            box.appendChild(img);
+            
             // TODO: separate render and state
             row.appendChild(box);
         }
