@@ -15,7 +15,9 @@ const generateParkContainer = (el) => {
             var box = document.createElement("div");
             box.className = "box";
             box.id = "box" + k;
-            box.innerHTML = box.id;
+            //box.innerHTML = k + ' ' + (5 - 1 - i);
+            box.innerHTML = row.id + ' ' + box.id;
+            // TODO: separate render and state
             row.appendChild(box);
         }
 
