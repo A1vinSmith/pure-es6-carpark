@@ -6,16 +6,17 @@ const generateParkContainer = (el) => {
     let container = document.createElement("div");
     container.id = "park-container";
     container.className = "grid";
-    let i, k;
-    for (i = 0; i < 5; i += 1) {
+    const parkSize = Store.getState().parkSize;
+    
+    for (let i = 0; i < parkSize; i += 1) {
         let row = document.createElement("div");
         row.className = "row";
         row.id = "row" + i;
 
-        for (k = 0; k < 5; k += 1) {
+        for (let k = 0; k < parkSize; k += 1) {
             let box = document.createElement("div");
             box.className = "box";
-            box.id = "Coordinate" + k + ',' + (5 - 1 - i); // Make id match the coordinate
+            box.id = "Coordinate" + k + ',' + (parkSize - i - 1); // Make id match the coordinate
             // Add to row
             row.appendChild(box);
         }

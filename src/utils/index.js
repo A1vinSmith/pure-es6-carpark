@@ -132,3 +132,28 @@ export const moveBus = (currentPosition = {}, isForward = true) => {
     }
     */
 };
+
+/**
+ * Split the input Command.
+ * @param  {String}     [cmd]  [get the String cmd after forEach from array]
+ * @return {Object}
+ */
+export const splitCommand = (cmd) => {
+    cmd = cmd.trim();
+    const spaceIndex = cmd.trim().indexOf(' ');
+    let command = cmd.toUpperCase();
+    return spaceIndex < 0 ? {command: command, params: null} : (() => {
+        command = cmd.substring(0, spaceIndex+1).trim();
+        const params = cmd.substring(spaceIndex+1).replace(/\s\s+/g, '').trim().split(",");
+        return {command: command, params: params};
+    })();
+    /*
+    if (spaceIndex<0){
+        return {command: command, params: null};
+    } else {
+        command = cmd.substring(0, spaceIndex+1).trim();
+        const params = cmd.substring(spaceIndex+1).replace(/\s\s+/g, '').trim().split(",");
+        return {command: command, params: params};
+    }
+    */
+};
