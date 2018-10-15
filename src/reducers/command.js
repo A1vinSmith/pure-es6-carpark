@@ -8,7 +8,7 @@ export const isValidCommand = (cmd) => {
     // Get result from splitCommand
     cmd = splitCommand(cmd);
     const params = cmd.params;
-    const command = cmd.command;
+    const command = cmd.command.toUpperCase();
     // Get State
     const parkSize = Store.getState().parkSize;
     let err = "";

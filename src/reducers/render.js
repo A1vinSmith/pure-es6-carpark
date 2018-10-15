@@ -50,19 +50,36 @@ const removeOldBus = () => {
 
 export function submitListener() {
     const cmdTextAreaEl = document.getElementById("cmdTextArea");
-    const a = isValidCommand(cmdTextAreaEl.value);
-    alert(a);
-    // Clear previous bus status
-    removeOldBus();
+    const cmdArray = cmdTextAreaEl.value.split('\n');
+    let cmdsPromise = Promise.resolve();
+    const BreakException = {err: "Command not allowed"};
+    try {
+        cmdArray.forEach((cmd) => {
+            // set then() here to execute until the last cmd is finished.
+            cmdsPromise = cmdsPromise.then(() => {
+                const a = isValidCommand(cmd);
+                if (a) {
+                    alert(a);
+                    throw BreakException;
+                } else {
+                    removeOldBus();
     
-    // Set current bus state
-    const buses = Store.getState().buses;
-    buses[0] = {
-        posX: 0,
-        posY: 0,
-        direction: 'EAST',
-        id: '1'
-    };
+                    // Set current bus state
+                    const buses = Store.getState().buses;
+                    buses[0] = {
+                        posX: 0,
+                        posY: 0,
+                        direction: 'EAST',
+                        id: '1'
+                    };
     
-    renderBusInPark();
+                    renderBusInPark();
+                }
+
+            });
+
+        });
+    } catch (e) {
+        if (e !== BreakException) throw e;
+    }
 }

@@ -5,7 +5,7 @@ import * as CONSTANTS from '../constants';
  * @param  {String}  direction [The supported directions are set in CONSTANTS]
  * @return {Boolean}           [Return ture if valid]
  */
-export const isValidDirection = direction => (CONSTANTS.DIR_ALL.indexOf(direction) > -1);
+export const isValidDirection = direction => (CONSTANTS.DIR_ALL.indexOf(direction.toUpperCase()) > -1);
 
 /**
  * Check whether there is another bus stops at the target unit.
