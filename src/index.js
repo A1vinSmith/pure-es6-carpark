@@ -1,7 +1,28 @@
-const sayHello = () => {
-    /* eslint-disable no-console */
-    console.log("All set!");
-    console.log("Arrow functions are working");
+import './index.css';
+
+/* Creating a grid as container */
+const generateParkContainer = (el) => {
+    let container = document.createElement("div");
+    container.id = "park-container";
+    container.className = "grid";
+    let i, k;
+    for (i = 0; i < 5; i += 1) {
+        let row = document.createElement("div");
+        row.className = "row";
+        row.id = "row" + i;
+
+        for (k = 0; k < 5; k += 1) {
+            var box = document.createElement("div");
+            box.className = "box";
+            box.id = "box" + k;
+            box.innerHTML = box.id;
+            row.appendChild(box);
+        }
+
+        container.appendChild(row);
+    }
+
+    el.appendChild(container);
 };
 
-sayHello();
+generateParkContainer(document.getElementById('main'));
