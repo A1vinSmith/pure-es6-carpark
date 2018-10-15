@@ -48,6 +48,41 @@ export const renderBusInPark = () => {
     });
 };
 
+const removeOldBus = () => {
+    const boxes = document.getElementsByClassName("box");
+    for(let i = 0; i < boxes.length; i++) {
+        while (boxes[i].firstChild) {
+            boxes[i].removeChild(boxes[i].firstChild);
+        }
+    }
+};
+
+export function submitListener() {
+    const cmdTextAreaEl = document.getElementById("cmdTextArea");
+    alert(cmdTextAreaEl.value);
+
+    // Clear previous bus status
+    removeOldBus();
+    
+    // Set current bus state
+    const buses = Store.getState().buses;
+    buses[0] = {
+        posX: 0,
+        posY: 0,
+        direction: 'EAST',
+        id: '1'
+    };
+    
+    renderBusInPark();
+}
+  
+// add event listener to form
+const cmdSubmitEl = document.getElementById("cmdSubmit");
+cmdSubmitEl.addEventListener("click", function (event) {
+    event.preventDefault(); // prevent rerender especially
+    submitListener();
+}, false);
+
 generateParkContainer(document.getElementById('main'));
 placeBus();
 renderBusInPark();

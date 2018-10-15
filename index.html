@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Pure ES6 Carpark</title>
     <style type="text/css" media="screen">
+        body { margin-top: 10vh }
         .form {
             border-radius: 5px;
             background-color: #f2f2f2;
@@ -40,13 +41,12 @@
     </style>
 </head>
 <body>
-    <h1>Let's rock</h1>
     <div id="main"></div>
     <div class="form">
         <form>
             <label>Enter command</label>
             <textarea id="cmdTextArea"> </textarea>
-            <input type="submit" value="Excute">
+            <input id="cmdSubmit" type="submit" value="Excute">
         </form>
     </div>
     <script type="text/javascript" src="dist/bundle.js"></script>

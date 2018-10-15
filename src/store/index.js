@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     selectedBusId: '',
     parkSize: 5,
     notification: '',
-    report: '',
+    report: ''
 };
 
 export const Store = (() => {
