@@ -76,6 +76,7 @@ export const rotateBus = (currentDirection, isClockwise = false) => {
  * @return {Object}                    [Return the new position after moving,
  *        Notice: if the currentPosition is not supported, return the same one.]
  */
+/*
 export const moveBus = (currentPosition = {}, isForward = true) => {
     let moveDir = currentPosition.direction;
     if (!isForward) {
@@ -105,33 +106,7 @@ export const moveBus = (currentPosition = {}, isForward = true) => {
             };
         }	
     }
-    /*
-    switch (moveDir) {
-    case CONSTANTS.DIR_NORTH:
-        return {
-            ...currentPosition,
-            posY: currentPosition.posY + 1,
-        };
-    case CONSTANTS.DIR_SOUTH:
-        return {
-            ...currentPosition,
-            posY: currentPosition.posY - 1,
-        };
-    case CONSTANTS.DIR_WEST:
-        return {
-            ...currentPosition,
-            posX: currentPosition.posX - 1,
-        };
-    case CONSTANTS.DIR_EAST:
-        return {
-            ...currentPosition,
-            posX: currentPosition.posX + 1,
-        };
-    default:
-        return currentPosition;
-    }
-    */
-};
+}; */
 
 /**
  * Split the input Command.
