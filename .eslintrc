@@ -21,7 +21,10 @@
         "mocha": true
     },
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
     },
     "extends": "eslint:recommended"
 }
