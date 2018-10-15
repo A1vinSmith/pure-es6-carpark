@@ -89,6 +89,23 @@ export const moveBus = (currentPosition = {}, isForward = true) => {
             moveDir = CONSTANTS.DIR_ALL[(index + 2) % CONSTANTS.DIR_ALL.length];
         }
     }
+    
+    const Structures = [
+      { dir: CONSTANTS.DIR_NORTH,key: 'posY', val: 1 },
+      { dir: CONSTANTS.DIR_SOUTH,key: 'posY', val: -1},
+      { dir: CONSTANTS.DIR_WEST, key: 'posX', val: 1 },
+      { dir: CONSTANTS.DIR_EAST, key: 'posX', val: -1},
+    ];
+    for(let i in Structures){
+        if (Structures[i].dir === moveDir){
+            const keyName = Structures[i].key;
+            return {
+                ...currentPosition,
+                keyName: currentPosition[keyName] + Structures[i].val
+            };
+        }	
+    }
+    /*
     switch (moveDir) {
     case CONSTANTS.DIR_NORTH:
         return {
@@ -113,4 +130,5 @@ export const moveBus = (currentPosition = {}, isForward = true) => {
     default:
         return currentPosition;
     }
+    */
 };
