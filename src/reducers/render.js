@@ -1,5 +1,8 @@
 import { Store } from '../store';
 import { isValidCommand } from './command';
+import { placeBus } from './execute';
+import { splitCommand } from '../utils';
+import * as CONSTANTS from '../constants';
 import '../index.css';
 
 /* Creating a grid as container */
@@ -38,8 +41,8 @@ export const renderBusInPark = () => {
     });
 };
 
-const removeOldBus = () => {
-    // If elements get too much, could maintain a previousState in Store to solve 
+export const removeOldBus = () => {
+    // If elements get too much, could maintain a previousState in Store to solve
     const boxes = document.getElementsByClassName("box");
     for(let i = 0; i < boxes.length; i++) {
         while (boxes[i].firstChild) {
@@ -51,35 +54,41 @@ const removeOldBus = () => {
 export function submitListener() {
     const cmdTextAreaEl = document.getElementById("cmdTextArea");
     const cmdArray = cmdTextAreaEl.value.split('\n');
-    let cmdsPromise = Promise.resolve();
-    const BreakException = {err: "Command not allowed"};
+
+    const commandBreakException = {err: "Command not allowed"};
+    const executeBreakException = {err: "Execute not available"};
+    
     try {
         cmdArray.forEach((cmd) => {
-            // set then() here to execute until the last cmd is finished.
-            cmdsPromise = cmdsPromise.then(() => {
-                const a = isValidCommand(cmd);
-                if (a) {
-                    alert(a);
-                    throw BreakException;
-                } else {
-                    removeOldBus();
-    
-                    // Set current bus state
-                    const buses = Store.getState().buses;
-                    buses[0] = {
-                        posX: 0,
-                        posY: 0,
-                        direction: 'EAST',
-                        id: '1'
+            // Check command is available
+            const commandError = isValidCommand(cmd);
+            if (commandError) {
+                alert(commandError);
+                throw commandBreakException;
+            } else {
+                // Then execute
+                cmd = splitCommand(cmd);
+                switch(cmd.command) {
+                case CONSTANTS.CMD_PLACE: {
+                    const position = {
+                        posX: Number(cmd.params[0]), 
+                        posY: Number(cmd.params[1]), 
+                        direction: cmd.params[2].toUpperCase()
                     };
-    
-                    renderBusInPark();
+                    const err = placeBus(position);
+                    if (err) { alert(err); throw executeBreakException; } 
+                    break;
                 }
-
-            });
-
+                case CONSTANTS.CMD_TURN_LEFT: {
+                    alert('left');
+                    break;
+                }
+                default:
+                    break;
+                }
+            }
         });
     } catch (e) {
-        if (e !== BreakException) throw e;
+        if (e !== commandBreakException && e !== executeBreakException) throw e;
     }
 }
