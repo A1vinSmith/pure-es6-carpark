@@ -33,11 +33,13 @@ export const generateParkContainer = (el) => {
 
 export const renderBusInPark = () => {
     const buses = Store.getState().buses;
-    buses.map((bus) => {
+    const busesLen = buses.length;
+    buses.map((bus, i) => {
         const box = document.getElementById("Coordinate" + bus.posX + "," + bus.posY);
         let img = document.createElement("i");
         img.className = `fa fa-bus inner rotate-${(bus.direction).toLowerCase()}`;
         box.appendChild(img);
+        if (busesLen === i + 1) img.className += ' selected'; // last bus have selected style
     });
 };
 

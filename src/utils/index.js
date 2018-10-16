@@ -75,15 +75,14 @@ export const rotateBus = (currentDirection, isClockwise = false) => {
 export const moveForwardBus = (currentPosition = {}) => {
     const moveDir = currentPosition.direction;
     const Structures = [
-      { dir: CONSTANTS.DIR_NORTH,key: 'posY', val: -1 },
-      { dir: CONSTANTS.DIR_SOUTH,key: 'posY', val: 1},
+      { dir: CONSTANTS.DIR_NORTH,key: 'posY', val: 1 },
+      { dir: CONSTANTS.DIR_SOUTH,key: 'posY', val: -1},
       { dir: CONSTANTS.DIR_WEST, key: 'posX', val: -1 },
       { dir: CONSTANTS.DIR_EAST, key: 'posX', val: 1},
     ];
     for(let i = 0; i < Structures.length; i++){
         const structure = Structures[i];
         if (structure.dir === moveDir){
-            // const keyName = structure.key;
             return {
                 ...currentPosition,
                 [structure.key]: currentPosition[structure.key] + structure.val
