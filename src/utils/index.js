@@ -66,44 +66,31 @@ export const rotateBus = (currentDirection, isClockwise = false) => {
 };
 
 /**
- * Move the bus forward or backward.
+ * Move the bus forward
  * @param  {Object}  [currentPosition]  [Current position of the bus,
  *                                    must include attributes: posX(int), posY(int)]
- * @param  {Boolean} isForward          [Moving forward or backward, default forward]
  * @return {Object}                    [Return the new position after moving,
  *        Notice: if the currentPosition is not supported, return the same one.]
  */
-/*
-export const moveBus = (currentPosition = {}, isForward = true) => {
-    let moveDir = currentPosition.direction;
-    if (!isForward) {
-        let index;
-        CONSTANTS.DIR_ALL.forEach((dir, i) => {
-            if (dir === moveDir) {
-                index = i;
-            }
-        });
-        if (index !== undefined) {
-            moveDir = CONSTANTS.DIR_ALL[(index + 2) % CONSTANTS.DIR_ALL.length];
-        }
-    }
-    
+export const moveForwardBus = (currentPosition = {}) => {
+    const moveDir = currentPosition.direction;
     const Structures = [
-      { dir: CONSTANTS.DIR_NORTH,key: 'posY', val: 1 },
-      { dir: CONSTANTS.DIR_SOUTH,key: 'posY', val: -1},
-      { dir: CONSTANTS.DIR_WEST, key: 'posX', val: 1 },
-      { dir: CONSTANTS.DIR_EAST, key: 'posX', val: -1},
+      { dir: CONSTANTS.DIR_NORTH,key: 'posY', val: -1 },
+      { dir: CONSTANTS.DIR_SOUTH,key: 'posY', val: 1},
+      { dir: CONSTANTS.DIR_WEST, key: 'posX', val: -1 },
+      { dir: CONSTANTS.DIR_EAST, key: 'posX', val: 1},
     ];
-    for(let i in Structures){
-        if (Structures[i].dir === moveDir){
-            const keyName = Structures[i].key;
+    for(let i = 0; i < Structures.length; i++){
+        const structure = Structures[i];
+        if (structure.dir === moveDir){
+            // const keyName = structure.key;
             return {
                 ...currentPosition,
-                keyName: currentPosition[keyName] + Structures[i].val
+                [structure.key]: currentPosition[structure.key] + structure.val
             };
         }	
     }
-}; */
+};
 
 /**
  * Split the input Command.
@@ -119,13 +106,6 @@ export const splitCommand = (cmd) => {
         const params = cmd.substring(spaceIndex+1).replace(/\s\s+/g, '').trim().split(",");
         return {command: command, params: params};
     })();
-    /*
-    if (spaceIndex<0){
-        return {command: command, params: null};
-    } else {
-        command = cmd.substring(0, spaceIndex+1).trim();
-        const params = cmd.substring(spaceIndex+1).replace(/\s\s+/g, '').trim().split(",");
-        return {command: command, params: params};
-    }
-    */
 };
+
+export const replaceBlank = (cmdArray) => cmdArray.filter((el) => el.trim() !== "");

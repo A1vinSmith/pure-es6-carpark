@@ -1,7 +1,7 @@
 import { Store } from '../store';
 import { isValidCommand } from './command';
-import { placeBus } from './execute';
-import { splitCommand } from '../utils';
+import { placeBus, moveBus } from './execute';
+import { splitCommand, replaceBlank } from '../utils';
 import * as CONSTANTS from '../constants';
 import '../index.css';
 
@@ -41,7 +41,7 @@ export const renderBusInPark = () => {
     });
 };
 
-export const removeOldBus = () => {
+const removeOldBus = () => {
     // If elements get too much, could maintain a previousState in Store to solve
     const boxes = document.getElementsByClassName("box");
     for(let i = 0; i < boxes.length; i++) {
@@ -53,8 +53,8 @@ export const removeOldBus = () => {
 
 export function submitListener() {
     const cmdTextAreaEl = document.getElementById("cmdTextArea");
-    const cmdArray = cmdTextAreaEl.value.split('\n');
-
+    const cmdArray = replaceBlank(cmdTextAreaEl.value.split('\n'));
+    
     const commandBreakException = {err: "Command not allowed"};
     const executeBreakException = {err: "Execute not available"};
     
@@ -79,13 +79,17 @@ export function submitListener() {
                     if (err) { alert(err); throw executeBreakException; } 
                     break;
                 }
-                case CONSTANTS.CMD_TURN_LEFT: {
-                    alert('left');
+                case CONSTANTS.CMD_MOVE_FARWARD: {
+                    const err = moveBus();
+                    if (err) { alert(err); throw executeBreakException; } 
                     break;
                 }
                 default:
                     break;
                 }
+                // Rerender after state set
+                removeOldBus();
+                renderBusInPark();
             }
         });
     } catch (e) {

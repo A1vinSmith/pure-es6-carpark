@@ -1,6 +1,5 @@
 import { Store } from '../store';
-import { checkInsidePark, checkBusExists } from '../utils';
-import { removeOldBus, renderBusInPark } from './render';
+import { checkInsidePark, checkBusExists, moveForwardBus } from '../utils';
 import * as MESSAGES from '../constants/messages';
 
 /**
@@ -17,24 +16,36 @@ export const placeBus = (position) => {
     } else if (checkBusExists(position, buses)) {
         return err = MESSAGES.NOTIFICATION_UNIT_TAKEN;
     } else {
-        removeOldBus();
-
         // Set current bus state
         const buses = Store.getState().buses;
         buses.push(position);
-    
-        renderBusInPark();
+        
         return err;
     }
-        /* move an exsiting bus or 
-    } else if (id) {
-        bus = Store.getState().buses[-1]
-      dispatch(moveExistingBus(position, id));
-      dispatch(setNotification(''));
-    } else if (Utils.isValidDirection(position.direction)) {
-      dispatch(createNewBus(position));
-      dispatch(selectBus());
-      dispatch(setNotification(''));
+};
+
+const currentBusPos = (buses) => buses[buses.length - 1];
+
+/**
+ * [moveBus move a exist one in the carpack]
+ * @return {err}            [Messages for execute result]
+ */
+export const moveBus = () => {
+    let err = "";
+    const { buses, parkSize } = Store.getState();
+    if (buses.length === 0) {
+        return err = MESSAGES.ERROR_NO_BUS_TO_MOVE;
+    } 
+    const position = moveForwardBus(currentBusPos(buses));
+    if (!checkInsidePark(position, parkSize)) {
+        return err = MESSAGES.NOTIFICATION_OUTSIDE_PARK;
+    } else if (checkBusExists(position, buses)) {
+        return err = MESSAGES.NOTIFICATION_UNIT_TAKEN;
+    } else {
+        // Set current bus state
+        buses.pop();
+        buses.push(position);
+        
+        return err;
     }
-    */
 };
