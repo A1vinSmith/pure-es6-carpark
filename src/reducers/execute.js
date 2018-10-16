@@ -1,5 +1,10 @@
 import { Store } from '../store';
-import { checkInsidePark, checkBusExists, moveForwardBus } from '../utils';
+import {
+    checkInsidePark,
+    checkBusExists,
+    moveForwardBus,
+    rotateBus
+} from '../utils';
 import * as MESSAGES from '../constants/messages';
 
 /**
@@ -10,7 +15,10 @@ import * as MESSAGES from '../constants/messages';
  */
 export const placeBus = (position) => {
     let err = "";
-    const { buses, parkSize } = Store.getState();
+    const {
+        buses,
+        parkSize
+    } = Store.getState();
     if (!checkInsidePark(position, parkSize)) {
         return err = MESSAGES.NOTIFICATION_OUTSIDE_PARK;
     } else if (checkBusExists(position, buses)) {
@@ -32,10 +40,13 @@ const currentBusPos = (buses) => buses[buses.length - 1];
  */
 export const moveBus = () => {
     let err = "";
-    const { buses, parkSize } = Store.getState();
+    const {
+        buses,
+        parkSize
+    } = Store.getState();
     if (buses.length === 0) {
         return err = MESSAGES.ERROR_NO_BUS_TO_MOVE;
-    } 
+    }
     const position = moveForwardBus(currentBusPos(buses));
     if (!checkInsidePark(position, parkSize)) {
         return err = MESSAGES.NOTIFICATION_OUTSIDE_PARK;
@@ -45,7 +56,28 @@ export const moveBus = () => {
         // Set current bus state
         buses.pop();
         buses.push(position);
+
+        return err;
+    }
+};
+
+/**
+ * [rotateBus move a exist one to other direction]
+ * @return {err}            [Messages for execute result]
+ */
+export const rotateCurrentBus = (isClockwise) => {
+    let err = "";
+    const { buses } = Store.getState();
+    if (buses.length === 0) {
+        return err = MESSAGES.ERROR_NO_BUS_TO_MOVE;
+    } else {
+        const position = currentBusPos(buses);
+        position.direction = rotateBus(position.direction, isClockwise);
         
+        // Set current bus state
+        buses.pop();
+        buses.push(position);
+
         return err;
     }
 };

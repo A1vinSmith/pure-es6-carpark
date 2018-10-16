@@ -1,6 +1,6 @@
 import { Store } from '../store';
 import { isValidCommand } from './command';
-import { placeBus, moveBus } from './execute';
+import { placeBus, moveBus, rotateCurrentBus } from './execute';
 import { splitCommand, replaceBlank } from '../utils';
 import * as CONSTANTS from '../constants';
 import '../index.css';
@@ -83,6 +83,16 @@ export function submitListener() {
                 }
                 case CONSTANTS.CMD_MOVE_FARWARD: {
                     const err = moveBus();
+                    if (err) { alert(err); throw executeBreakException; } 
+                    break;
+                }
+                case CONSTANTS.CMD_TURN_LEFT: {
+                    const err = rotateCurrentBus(false);
+                    if (err) { alert(err); throw executeBreakException; } 
+                    break;
+                }
+                case CONSTANTS.CMD_TURN_RIGHT: {
+                    const err = rotateCurrentBus(true);
                     if (err) { alert(err); throw executeBreakException; } 
                     break;
                 }
