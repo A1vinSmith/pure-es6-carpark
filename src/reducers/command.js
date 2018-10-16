@@ -27,10 +27,10 @@ export const isValidCommand = (uncheckedCmd) => {
             else if ((Number(params[0]) > parkSize) || (Number(params[1]) > parkSize)
                 || Number(params[0]) < 0 || Number(params[1]) < 0)
                 return err = "Out range coordinates";
-            else return err; // It's a place cmd
+            else return err; // Valid place cmd
         }
         else {
-            return err;     // It's others cmd
+            return err;     // Valid others cmd
         }
     }
 };

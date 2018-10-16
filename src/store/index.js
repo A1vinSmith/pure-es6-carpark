@@ -1,19 +1,15 @@
 const INITIAL_STATE = {
     buses: [],
-    selectedBusId: '',
-    parkSize: 5,
-    notification: '',
-    report: ''
+    parkSize: 5
 };
 
 export const Store = (() => {
-    // private variables
+    
     let state;
-    // private functions
+    
     const init = (data) => state = Object.assign({}, data);
     const getAllState = () => state;
 
-    //public functions
     return {
         getState: function () {
             return getAllState();
