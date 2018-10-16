@@ -81,3 +81,32 @@ export const rotateCurrentBus = (isClockwise) => {
         return err;
     }
 };
+
+/**
+ * [reportPos the current(last) bus position]
+ * @return {err}            [Messages for execute result]
+ */
+export const reportPos = () => {
+    let err = "";
+    const { buses } = Store.getState();
+    if (buses.length === 0) {
+        return err = MESSAGES.ERROR_NO_BUS_TO_MOVE;
+    } else {
+        const position = currentBusPos(buses);
+        const executeForm = document.getElementById("execute-form");
+
+        // Clear exsist output html
+        let outputEl = document.getElementById("output-element");
+        if (outputEl) executeForm.removeChild(outputEl);
+
+        // Generate output html
+        outputEl = document.createElement("div");
+        outputEl.id = "output-element";
+        outputEl.innerHTML = `Output: ${position.posX},${position.posY},${position.direction}`;
+
+        // Add to parent node
+        executeForm.appendChild(outputEl);
+
+        return err;
+    }
+};

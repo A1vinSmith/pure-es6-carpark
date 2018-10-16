@@ -1,6 +1,7 @@
 import { generateParkContainer, renderBusInPark, removeOldBus } from './reducers/render';
 import { isValidCommand } from './reducers/command';
-import { placeBus, moveBus, rotateCurrentBus } from './reducers/execute';
+import { placeBus, moveBus, 
+    reportPos, rotateCurrentBus } from './reducers/execute';
 import { splitCommand, replaceBlank } from './utils';
 import * as CONSTANTS from './constants';
 
@@ -46,6 +47,11 @@ export function submitListener() {
                 }
                 case CONSTANTS.CMD_TURN_RIGHT: {
                     const err = rotateCurrentBus(true);
+                    if (err) { alert(err); throw executeBreakException; } 
+                    break;
+                }
+                case CONSTANTS.CMD_REPORT: {
+                    const err = reportPos();
                     if (err) { alert(err); throw executeBreakException; } 
                     break;
                 }
