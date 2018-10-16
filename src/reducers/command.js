@@ -1,14 +1,14 @@
 import { Store } from '../store';
 import { splitCommand, isValidDirection } from '../utils';
-import { VALID_COMMANDS } from '../constants';
+import { VALID_COMMANDS, CMD_PLACE } from '../constants';
 
 const isBusInitialized = () => Store.getState().buses.length > 0;
 
-export const isValidCommand = (cmd) => {
+export const isValidCommand = (uncheckedCmd) => {
     // Get result from splitCommand
-    cmd = splitCommand(cmd);
+    const cmd = splitCommand(uncheckedCmd);
     const params = cmd.params;
-    const command = cmd.command.toUpperCase();
+    const command = cmd.command;
     // Get State
     const parkSize = Store.getState().parkSize;
     let err = "";
@@ -17,7 +17,7 @@ export const isValidCommand = (cmd) => {
     if (VALID_COMMANDS.indexOf(command) < 0) 
         return err = "Not valid command";
     else {
-        if (command === "PLACE") {
+        if (command === CMD_PLACE) {
             if (params === null || params.length !== 3)
                 return err = "Not a valid command, need 3 params";
             else if (!isValidDirection(params[2]))

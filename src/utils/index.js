@@ -93,18 +93,17 @@ export const moveForwardBus = (currentPosition = {}) => {
 
 /**
  * Split the input Command.
- * @param  {String}     [cmd]  [get the String cmd after forEach from array]
- * @return {Object}
+ * @param  {String}     [unSplitCmd]  [get the String cmd after forEach from array]
+ * @return {Object}                   [return uppercase command, available pattern as an object ]
  */
-export const splitCommand = (cmd) => {
-    cmd = cmd.trim();
-    const spaceIndex = cmd.trim().indexOf(' ');
-    let command = cmd.toUpperCase();
-    return spaceIndex < 0 ? {command: command, params: null} : (() => {
-        command = cmd.substring(0, spaceIndex+1).trim();
-        const params = cmd.substring(spaceIndex+1).replace(/\s\s+/g, '').trim().split(",");
-        return {command: command, params: params};
+export const splitCommand = (unSplitCmd) => {
+    const spaceIndex = unSplitCmd.trim().indexOf(' ');
+    return spaceIndex < 0 ? {command: unSplitCmd.trim().toUpperCase(), params: null} : (() => {
+        const command = unSplitCmd.substring(0, spaceIndex+1).trim().toUpperCase();
+        const params = unSplitCmd.substring(spaceIndex+1).replace(/\s\s+/g, '').trim().split(",");
+        return {command, params};
     })();
 };
+
 
 export const replaceBlank = (cmdArray) => cmdArray.filter((el) => el.trim() !== "");

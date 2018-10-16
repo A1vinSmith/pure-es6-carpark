@@ -1,8 +1,4 @@
 import { Store } from '../store';
-import { isValidCommand } from './command';
-import { placeBus, moveBus, rotateCurrentBus } from './execute';
-import { splitCommand, replaceBlank } from '../utils';
-import * as CONSTANTS from '../constants';
 import '../index.css';
 
 /* Creating a grid as container */
@@ -43,7 +39,7 @@ export const renderBusInPark = () => {
     });
 };
 
-const removeOldBus = () => {
+export const removeOldBus = () => {
     // If elements get too much, could maintain a previousState in Store to solve
     const boxes = document.getElementsByClassName("box");
     for(let i = 0; i < boxes.length; i++) {
@@ -52,59 +48,3 @@ const removeOldBus = () => {
         }
     }
 };
-
-export function submitListener() {
-    const cmdTextAreaEl = document.getElementById("cmdTextArea");
-    const cmdArray = replaceBlank(cmdTextAreaEl.value.split('\n'));
-    
-    const commandBreakException = {err: "Command not allowed"};
-    const executeBreakException = {err: "Execute not available"};
-    
-    try {
-        cmdArray.forEach((cmd) => {
-            // Check command is available
-            const commandError = isValidCommand(cmd);
-            if (commandError) {
-                alert(commandError);
-                throw commandBreakException;
-            } else {
-                // Then execute
-                cmd = splitCommand(cmd);
-                switch(cmd.command) {
-                case CONSTANTS.CMD_PLACE: {
-                    const position = {
-                        posX: Number(cmd.params[0]), 
-                        posY: Number(cmd.params[1]), 
-                        direction: cmd.params[2].toUpperCase()
-                    };
-                    const err = placeBus(position);
-                    if (err) { alert(err); throw executeBreakException; } 
-                    break;
-                }
-                case CONSTANTS.CMD_MOVE_FARWARD: {
-                    const err = moveBus();
-                    if (err) { alert(err); throw executeBreakException; } 
-                    break;
-                }
-                case CONSTANTS.CMD_TURN_LEFT: {
-                    const err = rotateCurrentBus(false);
-                    if (err) { alert(err); throw executeBreakException; } 
-                    break;
-                }
-                case CONSTANTS.CMD_TURN_RIGHT: {
-                    const err = rotateCurrentBus(true);
-                    if (err) { alert(err); throw executeBreakException; } 
-                    break;
-                }
-                default:
-                    break;
-                }
-                // Rerender after state set
-                removeOldBus();
-                renderBusInPark();
-            }
-        });
-    } catch (e) {
-        if (e !== commandBreakException && e !== executeBreakException) throw e;
-    }
-}
