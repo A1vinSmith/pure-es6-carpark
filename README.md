@@ -1,5 +1,7 @@
 # Pure es6 park simulator
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/A1vinSmith/pure-es6-carpark.svg)](https://greenkeeper.io/)
+
 ## Usage
 * `npm start` to run eslint on watch mode and dev-server at localhost:8080
 * `npm run watch` to only watch for/recompile on changes
